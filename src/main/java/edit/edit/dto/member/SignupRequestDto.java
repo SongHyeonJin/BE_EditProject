@@ -30,7 +30,7 @@ public class SignupRequestDto {
     @Size(min = 2, max = 10)
     @NotBlank
     private String nickname;
-
+    @EnumValid(message = "직업을 선택해야합니다.")
     private JobEnum job;
 
     public Member toEntity() {
