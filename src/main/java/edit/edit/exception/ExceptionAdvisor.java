@@ -1,5 +1,9 @@
 package edit.edit.exception;
 
+import edit.edit.dto.ResponseDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,8 +16,8 @@ public class ExceptionAdvisor {
     /**
      * Valid 예외 처리
      */
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public String signValidException(MethodArgumentNotValidException exception) {
+    @ExceptionHandler({MethodArgumentNotValidException.class, HttpMessageNotReadableException.class})
+    public ResponseEntity signValidException(MethodArgumentNotValidException exception) {
         BindingResult bindingResult = exception.getBindingResult();
 
         StringBuilder builder = new StringBuilder();
@@ -21,9 +25,10 @@ public class ExceptionAdvisor {
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
             builder.append("[");
             builder.append(fieldError.getField());
-            builder.append("](은)는 ");
-            builder.append(fieldError.getDefaultMessage() + "\n");
+            builder.append("] ");
+            builder.append(fieldError.getDefaultMessage());
         }
-        return builder.toString();
+        //TODO security 적용 후 builder.toString()으로 바꿔보기
+        return new ResponseEntity(ResponseDto.setBadRequest(builder.toString()), HttpStatus.OK);
     }
 }
