@@ -31,6 +31,9 @@ public class Member {
     @Column(nullable = false)
     private JobEnum job;
 
+    @OneToOne(mappedBy = "member")
+    private Profile profile;
+
     //TODO 프로필 추가
 
     @Builder
