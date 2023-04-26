@@ -1,5 +1,6 @@
 package edit.edit.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import edit.edit.dto.profile.ProfileRequestDto;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,6 +39,7 @@ public class Profile {
     @Column
     private String img;
     @OneToOne
+    @JsonBackReference
     @JoinColumn(name = "member_id")
     private Member member;
 

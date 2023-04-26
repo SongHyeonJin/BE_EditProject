@@ -1,5 +1,6 @@
 package edit.edit.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -32,6 +33,7 @@ public class Member {
     private JobEnum job;
 
     @OneToOne(mappedBy = "member")
+    @JsonManagedReference
     private Profile profile;
 
     //TODO 프로필 추가
