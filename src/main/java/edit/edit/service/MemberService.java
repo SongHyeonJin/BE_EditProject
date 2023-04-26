@@ -4,7 +4,9 @@ import edit.edit.dto.ResponseDto;
 import edit.edit.dto.member.LoginRequestDto;
 import edit.edit.dto.member.SignupRequestDto;
 import edit.edit.entity.Member;
+import edit.edit.jwt.JwtUtil;
 import edit.edit.repository.MemberRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
+    private final JwtUtil jwtUtil;
     /**
      * 회원가입
      */
@@ -36,13 +38,15 @@ public class MemberService {
     /**
      * 로그인
      */
-    public ResponseDto login(LoginRequestDto loginRequestDto) {
+    public ResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
         String userId = loginRequestDto.getUserId();
         String password = loginRequestDto.getPassword();
 
         //유효성 검사
         Member member = validateIsMember(userId);
         validatePassword(member, password);
+
+        response.addHeader(jwtUtil.ACCESS_HEADER, jwtUtil.createToken(userId));
 
         return ResponseDto.setSuccess("로그인 성공", null);
     }

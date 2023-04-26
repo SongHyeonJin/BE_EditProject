@@ -4,6 +4,7 @@ import edit.edit.dto.ResponseDto;
 import edit.edit.dto.member.LoginRequestDto;
 import edit.edit.dto.member.SignupRequestDto;
 import edit.edit.service.MemberService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseDto login(@RequestBody LoginRequestDto loginRequestDto) {
-        return memberService.login(loginRequestDto);
+    public ResponseDto login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
+        return memberService.login(loginRequestDto, response);
     }
 }
