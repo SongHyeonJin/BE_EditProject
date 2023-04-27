@@ -72,4 +72,8 @@ public class Board extends Timestamped {
         this.form = boardRequestDto.getForm();
         this.salary = boardRequestDto.getSalary();
     }
+
+    public void setMember(Member member) {
+        this.member = member;
+    }
 }
