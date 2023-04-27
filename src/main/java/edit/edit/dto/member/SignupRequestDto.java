@@ -15,12 +15,12 @@ public class SignupRequestDto {
 
     @Size(min = 4, max = 10)
     @NotBlank
-    @Pattern(regexp = "^[a-z0-9]*$")
+    @Pattern(regexp = "^[a-z0-9]*$", message = "{userId.pattern}")
     private String userId;
 
     @Size(min = 8, max = 15)
     @NotBlank
-    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,15}", message = "비밀번호는 8~15자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
+    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,15}", message = "{password.pattern}")
     private String password;
 
     @Email
@@ -30,7 +30,7 @@ public class SignupRequestDto {
     @Size(min = 2, max = 10)
     @NotBlank
     private String nickname;
-    @EnumValid(message = "직업을 선택해야합니다.")
+    @EnumValid(message = "{job.enumvalid}")
     private JobEnum job;
 
     public Member toEntity() {

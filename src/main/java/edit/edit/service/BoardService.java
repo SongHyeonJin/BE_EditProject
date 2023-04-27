@@ -70,7 +70,6 @@ public class BoardService {
      */
     @Transactional
     public ResponseDto delete(Long id, Member member) {
-        // 추가 : 유저(Member)가 자신의 게시물을 삭제하려 하는지 확인해야함
         Board board = validateBoard(id);
         isBoardAuthor(member, board);
         boardRepository.deleteById(id);
