@@ -32,7 +32,7 @@ public class MemberService {
         validExistEmail(email);
 
         memberRepository.save(signupRequestDto.toEntity());
-        return ResponseDto.setSuccess("회원가입 성공", null);
+        return ResponseDto.setSuccess("signup success", null);
     }
 
     /**
@@ -48,7 +48,7 @@ public class MemberService {
 
         response.addHeader(jwtUtil.ACCESS_HEADER, jwtUtil.createToken(userId));
 
-        return ResponseDto.setSuccess("로그인 성공", null);
+        return ResponseDto.setSuccess("login success", null);
     }
 
     //====유효성 검사====
