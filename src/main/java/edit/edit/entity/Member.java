@@ -30,6 +30,7 @@ public class Member {
     private String nickname;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private JobEnum job;
 
     @OneToOne(mappedBy = "member")
