@@ -20,7 +20,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     /**
-     * 조회
+     * 전체 게시글 조회
      */
     @Transactional(readOnly = true)
     public ResponseDto<List<BoardResponseDto>> list() {
@@ -29,6 +29,18 @@ public class BoardService {
                 .collect(Collectors.toList());
 
         return ResponseDto.setSuccess("list success", boardResponseDtos);
+    }
+
+    /**
+     * 내가 쓴 게시글 조회
+     */
+    @Transactional(readOnly = true)
+    public ResponseDto<List<BoardResponseDto>> myList(Member member) {
+        List<BoardResponseDto> boardResponseDtos = boardRepository.findAllByMember(member).stream()
+                .map(BoardResponseDto::new)
+                .collect(Collectors.toList());
+
+        return ResponseDto.setSuccess("myList success", boardResponseDtos);
     }
 
     /**

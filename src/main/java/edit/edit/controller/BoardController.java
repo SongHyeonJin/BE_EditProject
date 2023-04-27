@@ -12,36 +12,40 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("board")
 @RequiredArgsConstructor
 public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping()
+    @GetMapping("/board")
     public ResponseDto<List<BoardResponseDto>> list() {
         return boardService.list();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/myboard")
+    public ResponseDto<List<BoardResponseDto>> myList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return boardService.myList(userDetails.getMember());
+    }
+
+    @GetMapping("/board/{id}")
     public ResponseDto<BoardResponseDto> findOne(@PathVariable Long id) {
         return boardService.findBoard(id);
     }
 
-    @PostMapping()
+    @PostMapping("/board")
     public ResponseDto save(@RequestBody BoardRequestDto boardRequestDto,
                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return boardService.save(boardRequestDto, userDetails.getMember());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/board/{id}")
     public ResponseDto update(@PathVariable Long id,
                               @RequestBody BoardRequestDto boardRequestDto,
                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return boardService.update(id, boardRequestDto, userDetails.getMember());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/board/{id}")
     public ResponseDto delete(@PathVariable Long id,
                               @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return boardService.delete(id, userDetails.getMember());
