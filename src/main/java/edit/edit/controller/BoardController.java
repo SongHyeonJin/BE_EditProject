@@ -23,8 +23,13 @@ public class BoardController {
         return boardService.list();
     }
 
+    @GetMapping("/{id}")
+    public ResponseDto<BoardResponseDto> findOne(@PathVariable Long id) {
+        return boardService.findBoard(id);
+    }
+
     @PostMapping()
-    public ResponseDto post(@RequestBody BoardRequestDto boardRequestDto,
+    public ResponseDto save(@RequestBody BoardRequestDto boardRequestDto,
                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return boardService.save(boardRequestDto, userDetails.getMember());
     }

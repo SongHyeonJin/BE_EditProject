@@ -1,9 +1,11 @@
 package edit.edit.dto.board;
 
+import edit.edit.dto.member.MemberResponseDto;
 import edit.edit.entity.Board;
 import edit.edit.entity.Member;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -20,7 +22,7 @@ public class BoardResponseDto {
     private Date deadline;
     private String form;
     private int salary;
-    private Member member;
+    private MemberResponseDto member;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -34,7 +36,7 @@ public class BoardResponseDto {
         this.deadline = board.getDeadline();
         this.form = board.getForm();
         this.salary = board.getSalary();
-        this.member = board.getMember();
+        this.member = new MemberResponseDto(board.getMember());
         this.createdAt = board.getCreatedAt();
         this.modifiedAt = board.getModifiedAt();
     }

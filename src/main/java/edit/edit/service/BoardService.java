@@ -24,12 +24,20 @@ public class BoardService {
      */
     @Transactional(readOnly = true)
     public ResponseDto<List<BoardResponseDto>> list() {
-
-        List<BoardResponseDto> postResponseDtos = boardRepository.findAll().stream()
+        List<BoardResponseDto> boardResponseDtos = boardRepository.findAll().stream()
                 .map(BoardResponseDto::new)
                 .collect(Collectors.toList());
 
-        return ResponseDto.setSuccess("list success", postResponseDtos);
+        return ResponseDto.setSuccess("list success", boardResponseDtos);
+    }
+
+    /**
+     * 단일 조회
+     */
+    @Transactional(readOnly = true)
+    public ResponseDto<BoardResponseDto> findBoard(Long id) {
+        Board board = validateBoard(id);
+        return ResponseDto.setSuccess("findBoard success", new BoardResponseDto(board));
     }
 
     /**
@@ -82,5 +90,4 @@ public class BoardService {
             throw new IllegalArgumentException("권한이 없습니다.");
         }
     }
-
 }
