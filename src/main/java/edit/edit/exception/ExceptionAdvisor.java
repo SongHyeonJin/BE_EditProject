@@ -10,6 +10,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.NoSuchElementException;
+
 @ControllerAdvice
 public class ExceptionAdvisor {
 
@@ -30,5 +32,15 @@ public class ExceptionAdvisor {
         }
         //TODO security 적용 후 builder.toString()으로 바꿔보기
         return new ResponseEntity(ResponseDto.setBadRequest(builder.toString()), HttpStatus.OK);
+    }
+
+    /**
+     *  예외
+     */
+    @ExceptionHandler({NoSuchElementException.class, IllegalArgumentException.class})
+    public ResponseEntity exceptionHandler(Exception exception) {
+        String message = exception.getMessage();
+        ResponseDto responseDto = ResponseDto.setBadRequest(message);
+        return new ResponseEntity(responseDto, HttpStatus.OK);
     }
 }
