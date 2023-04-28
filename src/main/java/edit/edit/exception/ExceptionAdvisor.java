@@ -30,8 +30,7 @@ public class ExceptionAdvisor {
             builder.append("] ");
             builder.append(fieldError.getDefaultMessage());
         }
-        //TODO security 적용 후 builder.toString()으로 바꿔보기
-        return new ResponseEntity(ResponseDto.setBadRequest(builder.toString()), HttpStatus.OK);
+        return new ResponseEntity(ResponseDto.setBadRequest(builder.toString()), HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -41,6 +40,6 @@ public class ExceptionAdvisor {
     public ResponseEntity exceptionHandler(Exception exception) {
         String message = exception.getMessage();
         ResponseDto responseDto = ResponseDto.setBadRequest(message);
-        return new ResponseEntity(responseDto, HttpStatus.OK);
+        return new ResponseEntity(responseDto, HttpStatus.BAD_REQUEST);
     }
 }
