@@ -82,7 +82,7 @@ public class MemberService {
     }
 
     private void validatePassword(Member member, String password) {
-        if (!member.getPassword().equals(password)) {
+        if (!passwordEncoder.matches(password, member.getPassword())) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
     }
