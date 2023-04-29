@@ -8,6 +8,7 @@ import edit.edit.jwt.JwtUtil;
 import edit.edit.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +19,13 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
     /**
      * 회원가입
      */
     public ResponseDto signup(SignupRequestDto signupRequestDto) {
         String userId = signupRequestDto.getUserId();
+        String encodedPassword = passwordEncoder.encode(signupRequestDto.getPassword());
         String nickname = signupRequestDto.getNickname();
         String email = signupRequestDto.getEmail();
 
@@ -31,7 +34,7 @@ public class MemberService {
         validExistNickname(nickname);
         validExistEmail(email);
 
-        memberRepository.save(signupRequestDto.toEntity());
+        memberRepository.save(signupRequestDto.toEntity(encodedPassword));
         return ResponseDto.setSuccess("signup success", null);
     }
 
