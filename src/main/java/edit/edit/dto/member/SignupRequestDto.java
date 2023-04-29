@@ -33,10 +33,10 @@ public class SignupRequestDto {
     @EnumValid(message = "{job.enumvalid}")
     private JobEnum job;
 
-    public Member toEntity() {
+    public Member toEntity(String encodedPassword) {
         return Member.builder()
                 .userId(userId)
-                .password(password)
+                .password(encodedPassword)
                 .email(email)
                 .nickname(nickname)
                 .job(job)
