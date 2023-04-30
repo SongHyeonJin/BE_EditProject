@@ -32,4 +32,10 @@ public class WebConfig implements WebMvcConfigurer {
         bean.setValidationMessageSource(validationMessageSource());
         return bean;
     }
+
+    @Override
+    public void addCorsMappings(final CorsRegistry registry) {
+        registry.addMapping("/**")
+                .exposedHeaders("ACCESS_HEADER");
+    }
 }
