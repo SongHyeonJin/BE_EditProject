@@ -30,7 +30,6 @@ public class ProfileService {
         Profile profile = existProfile(id);
         isProfileMember(member, profile);
         profile.updateProfile(profileRequestDto);
-
         return ResponseDto.setSuccess("profile update success", profile);
     }
 

@@ -6,10 +6,12 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Getter
 @Entity
 @DynamicInsert
+@DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Profile {
     @Id
@@ -78,5 +80,10 @@ public class Profile {
     public void addMember(Member member){
         this.member = member;
     }
+
+    public void addPreference(Preference preference){
+        this.preference = preference;
+    }
+
 }
 

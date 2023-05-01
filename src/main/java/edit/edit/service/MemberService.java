@@ -5,6 +5,7 @@ import edit.edit.dto.member.LoginRequestDto;
 import edit.edit.dto.member.SignupRequestDto;
 import edit.edit.dto.profile.ProfileRequestDto;
 import edit.edit.entity.Member;
+import edit.edit.entity.Preference;
 import edit.edit.entity.Profile;
 import edit.edit.jwt.JwtUtil;
 import edit.edit.repository.MemberRepository;
