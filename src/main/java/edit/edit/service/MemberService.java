@@ -4,17 +4,22 @@ import edit.edit.dto.ResponseDto;
 import edit.edit.dto.member.LoginRequestDto;
 import edit.edit.dto.member.SignupRequestDto;
 import edit.edit.dto.profile.ProfileRequestDto;
+import edit.edit.entity.JobEnum;
 import edit.edit.entity.Member;
 import edit.edit.entity.Preference;
 import edit.edit.entity.Profile;
 import edit.edit.jwt.JwtUtil;
 import edit.edit.repository.MemberRepository;
+import edit.edit.repository.PreferenceRepository;
 import edit.edit.repository.ProfileRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 @Transactional
@@ -23,6 +28,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final ProfileRepository profileRepository;
+    private final PreferenceRepository preferenceRepository;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
     /**
@@ -33,18 +39,44 @@ public class MemberService {
         String encodedPassword = passwordEncoder.encode(signupRequestDto.getPassword());
         String nickname = signupRequestDto.getNickname();
         String email = signupRequestDto.getEmail();
+        JobEnum job = signupRequestDto.getJob();
 
         //유효성 검사
         validExistId(userId);
         validExistNickname(nickname);
         validExistEmail(email);
 
+        // 기본 프로필 생성
         ProfileRequestDto profileRequestDto = new ProfileRequestDto();
         Profile profile = profileRequestDto.toEntity();
 
+        // 기존의 사용자들 선호도에 신규 가입자를 가장 낮은 선호도로 추가
+        List<Preference> preferenceList = job.equals(JobEnum.YOUTUBER) ?
+                preferenceRepository.findAllByJob(JobEnum.Editor) : preferenceRepository.findAllByJob(JobEnum.YOUTUBER);
+        if (preferenceList.size() != 0) {
+            for (Preference prefer: preferenceList) {
+                prefer.addProfile(profile);
+            }
+        }
+
+        // 신규 가입자의 기본 선호도 설정
+        List<Member> theOtherParty = job.equals(JobEnum.YOUTUBER) ?
+                memberRepository.findAllByJob(JobEnum.Editor) : memberRepository.findAllByJob(JobEnum.YOUTUBER);
+        Preference preference = new Preference(signupRequestDto);
         // 영속성 전이(cascade) 때문에 프로필만 추가해도 자동으로 사용자가 추가됨.
-        profile.addMember(signupRequestDto.toEntity(encodedPassword));
+        preference.addMember(signupRequestDto.toEntity(encodedPassword));
+        if (theOtherParty.size() != 0) {
+            for (Member member: theOtherParty) {
+                preference.addDefaultPreferences(member.getProfile());
+            }
+        }
+
+        preferenceRepository.save(preference);
+
+        profile.addMember(preference.getMember());
+        profile.addPreference(preference);
         profileRepository.save(profile);
+
         return ResponseDto.setSuccess("signup success", null);
     }
 

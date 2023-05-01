@@ -18,37 +18,53 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "profile_id")
     private Long id;
+
     @Column(nullable = false)
     @ColumnDefault("'편집툴추가'")
     private String editTool;
+
     @Column(nullable = false)
     @ColumnDefault("'경력없음'")
     private String career;
+
     @Column(nullable = false)
     @ColumnDefault("'협의가능'")
     private String form;
+
     @Column(nullable = false)
     @ColumnDefault("0")
     private int salary;
+
     @Column(nullable = false)
     @ColumnDefault("'무관'")
     private String genre;
+
     @Column(nullable = false)
     @ColumnDefault("'무관'")
     private String workStyle;
+
     @Column(nullable = false)
     @ColumnDefault("'주특기추가'")
     private String specialty;
+
     @Column
     private String video;
+
     @Column
     private String homepage;
+
     @Column
     private String img;
-    @OneToOne(cascade = CascadeType.ALL)
+
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JsonBackReference
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "preference_id")
+    private Preference preference;
 
     @Builder
     public Profile(String editTool, String career, String form, int salary, String genre, String workStyle, String specialty, String video, String homepage, String img) {

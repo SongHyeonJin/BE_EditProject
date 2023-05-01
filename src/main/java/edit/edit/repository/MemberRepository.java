@@ -1,5 +1,6 @@
 package edit.edit.repository;
 
+import edit.edit.entity.JobEnum;
 import edit.edit.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -14,4 +15,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByNickname(String nickname);
 
     Optional<Member> findByEmail(String email);
+
+    List<Member> findAllByJob(JobEnum job);
 }
