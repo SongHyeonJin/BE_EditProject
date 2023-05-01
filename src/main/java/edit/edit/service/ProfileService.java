@@ -5,8 +5,6 @@ import edit.edit.dto.profile.ProfileRequestDto;
 import edit.edit.dto.profile.ProfileResponseDto;
 import edit.edit.entity.Member;
 import edit.edit.entity.Profile;
-import edit.edit.jwt.JwtUtil;
-import edit.edit.repository.MemberRepository;
 import edit.edit.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
