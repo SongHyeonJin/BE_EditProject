@@ -58,7 +58,7 @@ public class BoardService {
     @Transactional
     public ResponseDto save(BoardRequestDto boardRequestDto, Member member) {
         Board board = boardRequestDto.toEntity();
-        board.setMember(member);
+        board.addMember(member);
 
         boardRepository.save(board);
 

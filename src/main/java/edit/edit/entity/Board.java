@@ -73,7 +73,7 @@ public class Board extends Timestamped {
         this.salary = boardRequestDto.getSalary();
     }
 
-    public void setMember(Member member) {
+    public void addMember(Member member) {
         this.member = member;
     }
 }
