@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 @Entity
@@ -46,6 +48,10 @@ public class Preference {
 
     public void addDefaultPreferences(Profile profile) {
         profileList.add(profile);
+    }
+
+    public void updateProfileList(List<Profile> list) {
+        this.profileList = list;
     }
 
 }
