@@ -18,8 +18,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -100,7 +100,7 @@ public class MemberService {
 
     private Member validateIsMember(String userId) {
         return memberRepository.findByUserId(userId).orElseThrow(
-                () -> new IllegalArgumentException("등록된 회원이 없습니다.")
+                () -> new NoSuchElementException("등록된 회원이 없습니다.")
         );
     }
 
