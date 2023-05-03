@@ -1,4 +1,4 @@
 package edit.edit.dto.matching;
 
-public class MatchingReqeustDto {
+public class MatchingRequestDto {
 }
